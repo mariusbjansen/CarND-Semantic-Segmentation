@@ -60,13 +60,21 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     :param num_classes: Number of classes to classify
     :return: The Tensor for the last layer of output
     """
-    # TODO: Implement function
+    
+    '''
+    added kernel_initializer with stddev of 1e-2 
+    (seen this in the forum https://discussions.udacity.com/t/adding-skip-layers-mismatch-in-dimensions/635444)
+    otherwise the default would be used which is defined by the number of input and output units in the weight tensor
+    https://stackoverflow.com/questions/43284047/what-is-the-default-kernel-initializer-in-tf-layers-conv2d-and-tf-layers-dense
+    '''
+    
     # 1x1 convolution on vgg layer 7
     mod_layer_7_A = tf.layers.conv2d(
         vgg_layer7_out,
         num_classes,
         1,
         padding='same',
+        kernel_initializer=tf.random_normal_initializer(stddev=1e-2),
         kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
     # upsampling
     mod_layer_7_B = tf.layers.conv2d_transpose(
@@ -75,6 +83,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
         4,
         2,
         padding='same',
+        kernel_initializer=tf.random_normal_initializer(stddev=1e-2),
         kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
     # 1x1 convolution on vgg layer 4
     mod_layer_4_A = tf.layers.conv2d(
@@ -82,6 +91,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
         num_classes,
         1,
         padding='same',
+        kernel_initializer=tf.random_normal_initializer(stddev=1e-2),
         kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
     # add intermediate results
     mod_layer_4_7 = tf.add(mod_layer_7_B, mod_layer_4_A)
@@ -93,6 +103,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
         4,
         2,
         padding='same',
+        kernel_initializer=tf.random_normal_initializer(stddev=1e-2),
         kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
 
     # 1x1 convolution on vgg layer 3
@@ -101,6 +112,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
         num_classes,
         1,
         padding='same',
+        kernel_initializer=tf.random_normal_initializer(stddev=1e-2),
         kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
 
     # add intermediate results
@@ -219,8 +231,8 @@ def run():
             layer_output, label, learning_rate, num_classes)
 
         # TODO: Train NN using the train_nn function
-        epochs = 10
-        batch_size = 5
+        epochs = 50
+        batch_size = 1
         train_nn(sess, epochs, batch_size, get_batches_fn, train_op,
                  cross_entropy_loss, input_image, label, keep_prob,
                  learning_rate)
