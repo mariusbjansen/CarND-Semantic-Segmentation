@@ -187,7 +187,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op,
                     input_image: image,
                     correct_label: label,
                     keep_prob: 0.5,
-                    learning_rate: 0.001
+                    learning_rate: 0.0001
                 })
             print("Loss: = {:.5f}".format(loss))
 
