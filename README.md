@@ -1,3 +1,49 @@
+[image1]: ./images/um_000003.png
+[image2]: ./images/um_000029.png
+[image3]: ./images/uu_000098.png
+
+# Semantic Segmentation
+### Rubric points
+
+* Does the project load the pretrained vgg model?
+    * The function load_vgg is implemented correctly. I used the video tutorial as a reference and the paper [Fully Convolutional Networks for Semantic Segmentation](https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf)
+
+* Does the project learn the correct features from the images?
+    * The function layers is implemented correctly. Test was passed
+
+* Does the project optimize the neural network?
+    * The function optimize is implemented correctly. I used the video tutorial as a reference and information stated in the code I obtained from the Udacity forum.
+
+* Does the project train the neural network?
+    * The function train_nn is implemented correctly. The loss of the network should be printed while the network is training.
+
+* Does the project train the model correctly?
+    * On average, the model decreases loss over time.
+
+* Does the project use reasonable hyperparameters?
+    * The number of epoch and batch size are set to a reasonable number. I used the video tutorial as reference.
+
+* Does the project correctly label the road?
+*   The project labels most pixels of roads close to the best solution. The model doesn't have to predict correctly all the images, just most of them. A solution that is close to best would label at least 80% of the road and label no more than 20% of non-road pixels as road.
+
+## Short writeup (optionally)
+
+The main.py does a search with a learning rate of 0.0001 and the Adam optimizer (which further decreases the learning rate during training). I used 50 epochs and get reasonable results with my own graphics card (NVIDIA Geforce 1050 Ti (4GB of memory). I run into problems during training which I resolved and shared in the [Udacity forum](https://discussions.udacity.com/t/resource-exhausted/724798/2)
+
+
+Example images from the classification result are shown below
+![example result][image1]
+![example result][image2]
+![example result][image3]
+
+Ideas for improvement in the real world
+
+* line detection can be combined with the segmentation
+* search areas might be excluded or weighted with an a low a priori probability like 10-20 percent of the horizontal top area of the images
+
+
+original README.md below
+
 # Semantic Segmentation
 ### Introduction
 In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
